@@ -45,7 +45,7 @@ namespace StudentManagement.Models
             SqlDataAdapter da = new SqlDataAdapter(sql, con);
             con.Open(); //Ket noi den database
             da.Fill(dt); //Do du lieu vao data table
-            da.Dispose(); //Bo tri du lieu
+            da.Dispose(); //Dong command
             con.Close(); // huy ket noi database
 
             Student tmpStu;
@@ -61,5 +61,19 @@ namespace StudentManagement.Models
             return stuList;
 
         }
+
+        //Them sinh vien
+        public void AddStudent(Student stu)
+        {
+            string sql = "INSERT INTO Students(fullname, address, note) VALUES(N'" + stu.FullName
+                + "', N'" + stu.Address + "', N'" + stu.Note + "')";
+            SqlConnection con = db.GetConnection();
+            SqlCommand cmd = new SqlCommand(sql, con);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+            con.Close();
+        }
+
     }
 }

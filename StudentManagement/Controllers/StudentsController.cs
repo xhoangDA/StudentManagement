@@ -16,5 +16,24 @@ namespace StudentManagement.Controllers
             List<Student> obj = stuList.GetStudent(string.Empty).OrderBy(x=>x.FullName).ToList();
             return View(obj);
         }
+
+        //POST: Student
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(Student stu)
+        {
+            //kiem tra da nhap du cac truong
+            if (ModelState.IsValid)
+            {
+                StudentList stuList = new StudentList();
+                stuList.AddStudent(stu);
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
     }
+    
 }
