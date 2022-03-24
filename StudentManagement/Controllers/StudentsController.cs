@@ -11,10 +11,16 @@ namespace StudentManagement.Controllers
     {
         // GET: Students
         // Hien thi danh sach sinh vien
-        public ActionResult Index()
+        public ActionResult Index(string strSearch)
         {
             StudentList stuList = new StudentList();
             List<Student> obj = stuList.getStudent(string.Empty).OrderBy(x=>x.FullName).ToList();
+            //Kiểm tra xem chuỗi có dữ liệu chưa?
+            if (!String.IsNullOrEmpty(strSearch))
+            {
+                obj = obj.Where(x => x.FullName.Contains(strSearch) || x.Address.Contains(strSearch)).ToList();
+            }
+            ViewBag.StrSearch = strSearch;
             return View(obj);
         }
 
