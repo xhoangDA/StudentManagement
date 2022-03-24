@@ -86,5 +86,16 @@ namespace StudentManagement.Models
             cmd.Dispose();
             con.Close();
         }
+
+        public void DeleteStudent(Student stu)
+        {
+            string sql = "DELETE Students WHERE ID = " + stu.ID;
+            SqlConnection con = db.GetConnection();
+            SqlCommand cmd = new SqlCommand(sql, con);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+            con.Close();
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace StudentManagement.Controllers
         public ActionResult Edit(string id = "")
         {
             StudentList stuList = new StudentList();
-            List<Student> obj = stuList.getStudent(id); //.OrderBy(x => x.FullName).ToList()
+            List<Student> obj = stuList.getStudent(id).OrderBy(x => x.FullName).ToList(); 
             return View(obj.FirstOrDefault());
         }
         [HttpPost]
@@ -51,6 +51,28 @@ namespace StudentManagement.Controllers
             return RedirectToAction("Index");
         }
 
+        //Detail
+        public ActionResult Details(String id = "")
+        {
+            StudentList stuList = new StudentList();
+            List<Student> obj = stuList.getStudent(id); //.OrderBy(x => x.FullName).ToList()
+            return View(obj.FirstOrDefault());
+        }
+         
+        //Delete
+        public ActionResult Delete(string id  = "")
+        {
+            StudentList stuList = new StudentList();
+            List<Student> obj = stuList.getStudent(id);
+            return View(obj.FirstOrDefault());
+        }
+        [HttpPost]
+        public ActionResult Delete(Student stu)
+        {
+            StudentList stuList = new StudentList();
+            stuList.DeleteStudent(stu);
+            return RedirectToAction("Index");
+        }
     }
     
 }
