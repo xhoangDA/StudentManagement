@@ -10,14 +10,15 @@ namespace StudentManagement.Controllers
     public class StudentsController : Controller
     {
         // GET: Students
+        // Hien thi danh sach sinh vien
         public ActionResult Index()
         {
             StudentList stuList = new StudentList();
-            List<Student> obj = stuList.GetStudent(string.Empty).OrderBy(x=>x.FullName).ToList();
+            List<Student> obj = stuList.getStudent(string.Empty).OrderBy(x=>x.FullName).ToList();
             return View(obj);
         }
 
-        //POST: Student
+        //Them moi sinh vien
         public ActionResult Create()
         {
             return View();
@@ -34,6 +35,22 @@ namespace StudentManagement.Controllers
             }
             return View();
         }
+
+        //Cap nhat thong tin sinh vien
+        public ActionResult Edit(string id = "")
+        {
+            StudentList stuList = new StudentList();
+            List<Student> obj = stuList.getStudent(id); //.OrderBy(x => x.FullName).ToList()
+            return View(obj.FirstOrDefault());
+        }
+        [HttpPost]
+        public ActionResult Edit(Student stu)
+        {
+            StudentList stuList = new StudentList();
+            stuList.UpdateStudent(stu);
+            return RedirectToAction("Index");
+        }
+
     }
     
 }
