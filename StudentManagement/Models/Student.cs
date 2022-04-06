@@ -31,13 +31,13 @@ namespace StudentManagement.Models
         }
 
         //Lay ra danh sach Student theo ID va hien thi
-        public List<Student> GetStudent(string ID)
+        public List<Student> getStudent(string ID)
         {
             string sql;
             if (string.IsNullOrEmpty(ID))
                 sql = "SELECT * FROM Students";
             else
-                sql = @"SELECT * FROM Students WHERE ID = {ID}";
+                sql = "SELECT * FROM Students WHERE ID = "+ID;
 
             List<Student> stuList = new List<Student>();
             DataTable dt = new DataTable();
@@ -45,7 +45,7 @@ namespace StudentManagement.Models
             SqlDataAdapter da = new SqlDataAdapter(sql, con);
             con.Open(); //Ket noi den database
             da.Fill(dt); //Do du lieu vao data table
-            da.Dispose(); //Bo tri du lieu
+            da.Dispose(); //Đóng command
             con.Close(); // huy ket noi database
 
             Student tmpStu;
@@ -60,6 +60,42 @@ namespace StudentManagement.Models
             }
             return stuList;
 
+        }
+
+        //Them sinh vien
+        public void AddStudent(Student stu)
+        {
+            string sql = "INSERT INTO Students(fullname, address, note) VALUES(N'" + stu.FullName
+                + "', N'" + stu.Address + "', N'" + stu.Note + "')";
+            SqlConnection con = db.GetConnection();
+            SqlCommand cmd = new SqlCommand(sql, con);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+            con.Close();
+        }
+
+        // Cap nhat thong tin sinh vien
+        public void UpdateStudent(Student stu)
+        {
+            string sql = "UPDATE Students SET Fullname = N'" + stu.FullName + "', Address = N'" + stu.Address + "', Note = N'" + stu.Note + "' WHERE ID=" + stu.ID;
+            SqlConnection con = db.GetConnection();
+            SqlCommand cmd = new SqlCommand(sql, con);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+            con.Close();
+        }
+
+        public void DeleteStudent(Student stu)
+        {
+            string sql = "DELETE Students WHERE ID = " + stu.ID;
+            SqlConnection con = db.GetConnection();
+            SqlCommand cmd = new SqlCommand(sql, con);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+            con.Close();
         }
     }
 }
