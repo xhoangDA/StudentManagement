@@ -47,5 +47,11 @@ namespace StudentManagement.Controllers
             }
 
         }
+
+        public ActionResult LogOut()
+        {
+            Session.Abandon();
+            return RedirectToAction("Login", "Account");
+        }
     }
 }
